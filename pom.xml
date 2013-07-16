@@ -2,10 +2,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>cn.edu.seu.cose.jellyjolly</groupId>
-    <artifactId>jellyjolly-openshift-dist</artifactId>
+    <artifactId>jellyjolly-common-dist</artifactId>
     <packaging>war</packaging>
-    <version>1.0.BETA3-SNAPSHOT</version>
-    <name>Jelly Jolly Openshift Distribution</name>
+    <version>1.0-SNAPSHOT</version>
+    <name>Jelly Jolly Common Distribution</name>
     <organization>
         <name>College of Software Engineering, Southeast University</name>
         <url>http://cose.seu.edu.cn/</url>
@@ -91,12 +91,12 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>jellyjolly-core</artifactId>
-            <version>${project.version}</version>
+            <version>1.0.BETA3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>jellyjolly-persistence-mysql</artifactId>
-            <version>${project.version}</version>
+            <version>1.0.BETA3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
@@ -161,32 +161,8 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <profiles>
-        <profile>
-            <!-- When built in OpenShift the 'openshift' profile will be used when
-        				invoking mvn. -->
-            <!-- Use this profile for any OpenShift specific customization your app
-        				will need. -->
-            <!-- By default that is to put the resulting archive into the 'webapps'
-        				folder. -->
-            <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
-            <id>openshift</id>
-            <build>
-                <finalName>jellyjolly</finalName>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <version>2.1.1</version>
-                        <configuration>
-                            <outputDirectory>webapps</outputDirectory>
-                            <warName>ROOT</warName>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
     <build>
+        <finalName>ROOT</finalName>
         <plugins>
             <plugin>
                 <groupId>com.github.github</groupId>
@@ -226,9 +202,8 @@
                 </dependencies>
                 <configuration>
                     <driver>com.mysql.jdbc.Driver</driver>
-                    <username>${env.OPENSHIFT_MYSQL_DB_USERNAME}</username>
-                    <password>${env.OPENSHIFT_MYSQL_DB_PASSWORD}</password>
-                    <url>jdbc:mysql://${env.OPENSHIFT_MYSQL_DB_HOST}:${env.OPENSHIFT_MYSQL_DB_PORT}/?useUnicode=true&amp;characterEncoding=UTF-8</url>
+                    <username>root</username>
+                    <url>jdbc:mysql://127.0.0.1:3306/?useUnicode=true&amp;characterEncoding=UTF-8</url>
                     <autocommit>false</autocommit>
                     <delimiterType>row</delimiterType>
                     <srcFiles>
@@ -239,11 +214,4 @@
             </plugin>
         </plugins>
     </build>
-    <distributionManagement>
-        <repository>
-            <id>internal.repo</id>
-            <name>Temporary Staging Repository</name>
-            <url>file://${project.build.directory}/mvn-repo</url>
-        </repository>
-    </distributionManagement>
 </project>
